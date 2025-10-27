@@ -30,4 +30,15 @@ class LevelProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  int getBestScore(int levelNumber) {
+    return _prefsService.getBestScore(levelNumber);
+  }
+
+  Future<void> saveBestScore(int levelNumber, int score) async {
+    final currentBest = _prefsService.getBestScore(levelNumber);
+    if (score > currentBest) {
+      await _prefsService.saveBestScore(levelNumber, score);
+    }
+  }
 }

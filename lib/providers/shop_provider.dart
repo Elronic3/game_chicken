@@ -25,6 +25,13 @@ class ShopProvider extends ChangeNotifier {
   int get playerBalance => _playerBalance;
   List<String> get purchasedSkinIds => _purchasedSkinIds;
   String get activeSkinId => _activeSkinId;
+  String get activeSkinAssetPath {
+    final skin = shopItems.firstWhere(
+      (item) => item.id == _activeSkinId,
+      orElse: () => shopItems.first,
+    );
+    return skin.assetPath;
+  }
 
   static final List<Skin> shopItems = [
     Skin(
@@ -101,6 +108,12 @@ class ShopProvider extends ChangeNotifier {
     _playerBalance = _prefsService.getPlayerBalance();
     _purchasedSkinIds = _prefsService.getPurchasedSkins();
     _activeSkinId = _prefsService.getActiveSkin();
+  }
+
+  Future<void> addTokens(int amount) async {
+    _playerBalance += amount;
+    await _prefsService.savePlayerBalance(_playerBalance);
+    notifyListeners();
   }
 
   Future<bool> buySkin(Skin skin) async {

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
 import 'package:chicken_game/screens/loading/loading_screen.dart';
 import 'package:chicken_game/screens/home/home_screen.dart';
 import 'package:chicken_game/screens/menu/menu_screen.dart';
 import 'package:chicken_game/screens/levels/levels_screen.dart';
+import 'package:chicken_game/screens/game/game_screen.dart';
+import 'package:chicken_game/screens/shop/shop_screen.dart';
 import 'package:chicken_game/screens/profile/profile_screen.dart';
 import 'package:chicken_game/screens/settings/settings_screen.dart';
-import 'package:chicken_game/screens/shop/shop_screen.dart';
 
 class AppRouter {
   late final GoRouter router = GoRouter(
@@ -41,6 +43,13 @@ class AppRouter {
         },
       ),
       GoRoute(path: '/shop', builder: (context, state) => const ShopScreen()),
+      GoRoute(
+        path: '/game/:levelId',
+        builder: (context, state) {
+          final levelId = state.pathParameters['levelId']!;
+          return GameScreen(levelId: levelId);
+        },
+      ),
     ],
   );
 }
